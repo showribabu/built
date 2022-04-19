@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/txt1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="num1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="20dp"
+        android:inputType="number"/>
+    <EditText
+        android:id="@+id/txt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="num2"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="20dp"
+        android:layout_below="@id/txt1"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/but1"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="add"
+        android:layout_below="@id/txt2"
+        android:layout_margin="10dp"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/but2"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt2"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@id/but1"
+        android:text="sub" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/but3"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/but1"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="22dp"
+
+
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="mul" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/but4"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/but2"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@id/but3"
+        android:text="div" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/but5"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/but4"
+        android:layout_centerHorizontal="true"
+        android:text="answer"
+        android:layout_margin="20dp"/>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true">
+
+   </LinearLayout>
+
+    <TextView
+        android:id="@+id/res"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/but5"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="answer is "
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="25dp" />
+
+
+</RelativeLayout>
+
+
+
+***
+package com.example.calculator;
+
+import android.os.Bundle;
+
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.ViewSwitcher;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.button.MaterialButton;
+
+import java.text.BreakIterator;
+
+public class MainActivity extends AppCompatActivity implements MainActivity1, OnClickListener {
+
+    private Thread v;
+    private Object view;
+
+    int num1, num2;
+    float results=0;
+    TextView res;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        MaterialButton add, sub, mul, div, but5;
+        EditText txt1, txt2;
+
+
+
+
+        add = (MaterialButton) findViewById(R.id.but1);
+        sub = (MaterialButton) findViewById(R.id.but2);
+        mul = (MaterialButton) findViewById(R.id.but3);
+        div = (MaterialButton) findViewById(R.id.but4);
+        but5 = (MaterialButton) findViewById(R.id.but5);
+        txt1 = (EditText) findViewById(R.id.txt1);
+        txt2 = (EditText) findViewById(R.id.txt2);
+        res = (TextView) findViewById(R.id.res);
+
+        add.setOnClickListener(this);
+        sub.setOnClickListener(this);
+        mul.setOnClickListener(this);
+        div.setOnClickListener(this);
+        but5.setOnClickListener(this);
+
+        String s1 = txt1.getText().toString();
+        String s2 = txt2.getText().toString();
+
+
+
+        // condition to check if box is not empty
+        if ((s1.equals(null) && s2.equals(null))
+                || (s1.equals("") && s2.equals("")))
+        {
+
+            String result = "";
+            res.setText(result);
+           // return false;
+
+        }
+        else
+        {
+            // converting string to int.
+            num1 = Integer.parseInt(s1);
+            num2 = Integer.parseInt(s2);
+            // return;
+        }
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (1) {
+            case R.id.but1:
+
+                results = num1 + num2;
+                res.setText(num1 + " " + " " + num2 + " = " + results);
+
+                break;
+
+            case R.id.but2:
+                results = num1 - num2;
+                res.setText(num1 + " " + " " + num2 + " = " + results);
+                break;
+            case R.id.but3:
+                results = num1 * num2;
+                res.setText(num1 + " " + " " + num2 + " = " + results);
+
+                break;
+            case R.id.but4:
+                results = num1 / num2;
+                res.setText(num1 + " " + " " + num2 + " = " + results);
+                break;
+
+            case R.id.but5:res.setText(num1 + " " + " " + num2 + " = " + results);
+            default:
+                break;
+        }
+
+    }
+
+
+}
